@@ -33,17 +33,33 @@ local function buttonName(scope, id)
 	return scopes[scope].prefix .. id
 end
 
-local function stubFor(scope, id)
-	return "/click " .. buttonName(scope, id)
+-- Máximo para la línea #show/#showtooltip que se copia a la macro real: el resto lo ocupa el
+-- "/click <botón>" y hay que dejar margen para el nombre del botón (el id crece con el tiempo).
+local SHOW_LINE_LIMIT = NATIVE_LIMIT - 40
+
+local function showLine(text)
+	local line = text:match("^%s*(#show[^\n]*)")
+	if line and #line <= SHOW_LINE_LIMIT then return line end
+end
+
+local function stubFor(scope, id, text)
+	local stub = "/click " .. buttonName(scope, id)
+	local show = text and showLine(text)
+	return show and (show .. "\n" .. stub) or stub
 end
 
 local function stubId(body, scope)
-	local id = body and body:match("^/click " .. scopes[scope].prefix .. "(%d+)$")
+	local id = body and body:match("/click " .. scopes[scope].prefix .. "(%d+)%s*$")
 	return tonumber(id)
 end
 
--- Solo cuenta como stub si el cuerpo es exactamente el nuestro y el id tiene texto guardado.
+-- Solo cuenta como stub si el cuerpo es exactamente el nuestro (con o sin línea #show delante)
+-- y el id tiene texto guardado.
 local function knownId(body, scope)
+	if not (body and body:match("^/click " .. scopes[scope].prefix .. "%d+%s*$")
+		or body:match("^#show[^\n]*\n/click " .. scopes[scope].prefix .. "%d+%s*$")) then
+		return
+	end
 	local id = stubId(body, scope)
 	if id and storeOf(scope)[id] then return id end
 end
@@ -117,7 +133,7 @@ local function migrateLegacy(scope)
 				storeOf(scope)[converted[old]] = text
 				setButton(buttonName(scope, converted[old]), text)
 			end
-			EditMacro(slot, nil, nil, stubFor(scope, converted[old]))
+			EditMacro(slot, nil, nil, stubFor(scope, converted[old], text))
 		end
 	end
 	for old in pairs(legacy) do
@@ -184,7 +200,7 @@ local function saveLong(slot, text)
 	id = id or allocateId(scope)
 	store[id] = text
 	setButton(buttonName(scope, id), text)
-	EditMacro(slot, nil, nil, stubFor(scope, id))
+	EditMacro(slot, nil, nil, stubFor(scope, id, text))
 end
 
 local function save(enabled)

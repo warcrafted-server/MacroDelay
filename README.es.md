@@ -26,7 +26,6 @@ Hace dos cosas: se acaba el límite de 255 caracteres de las macros, y tienes un
 1. Descarga este repositorio en el directorio de addons de tu cliente, en una carpeta que se llame exactamente `MacroDelay`:
    `World of Warcraft 3.3.5a/Interface/AddOns/MacroDelay/`
 2. Activa **"Cargar accesorios antiguos"** (Load out of date addons) en la pantalla de selección de personajes.
-3. Desactiva **ncBiggerMacros** y **SlashIn** si los tienes: tocan las mismas partes de la ventana de macros y el comando `/in`.
 
 > **Al actualizar:** cierra el cliente de WoW del todo y vuelve a abrirlo, porque ha cambiado la lista de archivos del addon y `/reload` no lo recoge. Las macros largas guardadas con versiones anteriores se convierten solas la primera vez que entras.
 

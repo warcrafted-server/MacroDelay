@@ -26,7 +26,6 @@ It does two things: no more 255-character limit on macros, and a `/in <seconds> 
 1. Download this repository into your client's addons directory, in a folder named exactly `MacroDelay`:
    `World of Warcraft 3.3.5a/Interface/AddOns/MacroDelay/`
 2. Make sure **"Load out of date addons"** is enabled on the character selection screen.
-3. Disable **ncBiggerMacros** and **SlashIn** if you have them: they replace the same parts of the macro window and the `/in` command.
 
 > **When updating:** fully close and reopen the WoW client, since the list of addon files changed and `/reload` doesn't pick that up. Long macros saved with earlier versions are converted automatically the first time you log in.
 
