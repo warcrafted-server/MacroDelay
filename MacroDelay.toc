@@ -1,0 +1,21 @@
+## Interface: 30300
+## Title: MacroDelay
+## Author: WarCrafted
+## Version: 1.0.0
+## Notes: Macros sin límite de caracteres y ejecución retardada de comandos (/in) para WoW 3.3.5a.
+## Notes-esES: Macros sin límite de caracteres y ejecución retardada de comandos (/in) para WoW 3.3.5a.
+## SavedVariables: MacroDelayDB
+
+Libs\LibStub\LibStub.lua
+Libs\CallbackHandler-1.0\CallbackHandler-1.0.lua
+Libs\LibDataBroker-1.1\LibDataBroker-1.1.lua
+
+MacroDelay.lua
+
+Core\MacroLimit.lua
+Core\DelayedCommand.lua
+Core\Options.lua
+Core\Help.lua
+
+UI\MinimapButton.lua
+UI\Broker.lua

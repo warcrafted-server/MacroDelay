@@ -1,0 +1,23 @@
+# Al repositorio va el addon más los README (documentación pública del proyecto en GitHub).
+# CHANGELOG, docs/, CLAUDE.md, .agents/ y demás rastro de trabajo se quedan solo en local.
+/*
+!/.gitignore
+!/MacroDelay.toc
+!/MacroDelay.lua
+!/Core/
+!/UI/
+!/Libs/
+!/README.md
+!/README.es.md
+
+# Restos de editores y del sistema dentro de Core/, UI/ y Libs/
+*.bak
+*.swp
+.DS_Store
+Thumbs.db
+
+# Addons de referencia (ncBiggerMacros, SlashIn): solo para consulta local, nunca a git.
+/sources/
+
+# La lista blanca de arriba ya excluye CHANGELOG.md, CLAUDE.md, .agents/ y .claude/; se nombran
+# aquí solo para dejar constancia de que es intencionado, no un descuido.
