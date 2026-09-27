@@ -40,6 +40,15 @@ local function onEnter(self)
 	GameTooltip:Show()
 end
 
+function MCD:ApplyMinimapVisibility()
+	if not self.minimapButton then return end
+	if self.db.minimapHidden then
+		self.minimapButton:Hide()
+	else
+		self.minimapButton:Show()
+	end
+end
+
 MCD:OnDbReady(function()
 	local button = CreateFrame("Button", "MacroDelayMinimapButton", Minimap)
 	button:SetSize(31, 31)
@@ -69,12 +78,3 @@ MCD:OnDbReady(function()
 	applyPosition(button)
 	MCD:ApplyMinimapVisibility()
 end)
-
-function MCD:ApplyMinimapVisibility()
-	if not self.minimapButton then return end
-	if self.db.minimapHidden then
-		self.minimapButton:Hide()
-	else
-		self.minimapButton:Show()
-	end
-end

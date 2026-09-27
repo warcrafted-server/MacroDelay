@@ -200,6 +200,12 @@ MCD:HookScript("OnEvent", function(self, event, addon)
 		MacroFrame_Update = updateFrame
 		MacroPopupOkayButton_OnClick = newMacro
 
+		-- Refuerzo: al cerrar la ventana de macros (botón Salir, Escape, /reload) el body en
+		-- pantalla puede no haberse guardado todavía si el jugador no cambió de macro antes.
+		-- Sin este guardado explícito, el macro real del cliente se queda con el texto largo
+		-- sin convertir a proxy y Blizzard lo trunca a 255 caracteres al grabar en disco.
+		MacroFrame:HookScript("OnHide", function() saveMacro() end)
+
 		self:OnDbReady(function()
 			self.db.macroBodies = self.db.macroBodies or {}
 			self.db.macroBodiesChar = self.db.macroBodiesChar or {}
