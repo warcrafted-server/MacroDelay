@@ -98,6 +98,10 @@ end
 local function updateFrame()
 	if not MCD:IsEnabled() then return MCD._nativeUpdate() end
 
+	-- MacroFrame_ShowDetails (nativo de Blizzard, llamado más abajo) hace SetMaxLetters(255) cada
+	-- vez que se selecciona una macro, pisando el límite ampliado: hay que reaplicarlo aquí.
+	MCD:ApplyCharLimit()
+
 	local numAccountMacros, numCharacterMacros = GetNumMacros()
 	local numMacros = MacroFrame.macroBase == 0 and numAccountMacros or numCharacterMacros
 	local bodies = storedBodies()
@@ -119,6 +123,7 @@ local function updateFrame()
 				if MacroFrame.selectedMacro and i == (MacroFrame.selectedMacro - MacroFrame.macroBase) then
 					macroButton:SetChecked(1)
 					MacroFrameSelectedMacroName:SetText(name)
+					MCD:ApplyCharLimit()
 					MacroFrameText:SetText(body)
 					MacroFrameSelectedMacroButton:SetID(i)
 					MacroFrameSelectedMacroButtonIcon:SetTexture(texture)
@@ -140,6 +145,7 @@ local function updateFrame()
 
 	if MacroFrame.selectedMacro ~= nil then
 		MacroFrame_ShowDetails()
+		MCD:ApplyCharLimit()
 		MacroDeleteButton:Enable()
 	else
 		MacroFrame_HideDetails()

@@ -14,7 +14,7 @@ Fusiona dos addons pequeños y conocidos en uno solo: adiós al límite de 255 c
 
 - **Macros sin el límite de 255 caracteres:** escribe una macro tan larga como necesites en la propia ventana de macros del juego (`Escape > Macros`, o `/macro`). A partir de 255 caracteres, MacroDelay guarda el texto completo y sustituye la macro por un proxy interno que la ejecuta; el resto (icono, nombre, arrastrar a las barras de acción) funciona exactamente igual. El límite de caracteres (1024 o 2048) es una opción configurable.
 - **Comandos retrasados (`/in`, `/md`):** `/in <segundos> <comando>` (o `/md`, es lo mismo) ejecuta un comando de barra tras un retraso, para encadenar avisos, emotes o acciones cosméticas dentro de una misma macro.
-- **Icono de minimapa:** arrastrable alrededor del borde, con posición guardada. Clic izquierdo abre el panel de opciones; clic derecho activa/desactiva el addon.
+- **Icono de minimapa:** arrastrable alrededor del borde, con posición guardada. Clic izquierdo abre el panel de opciones; clic derecho activa/desactiva el addon. Se puede ocultar desde el panel de opciones sin desactivar el addon.
 - **Botón en la barra de wcdpanel:** MacroDelay publica un data object LibDataBroker estándar, igual que Questie, GatherMate o RecipeRadar, así que `wcdpanel` lo detecta solo si está instalado. Sin dependencia en ningún sentido.
 - **Panel de opciones:** activar/desactivar el addon y elegir el límite de caracteres de macro, desde la ventana estándar de Opciones de interfaz.
 - **Ayuda dentro del juego:** una pestaña de Ayuda propia dentro del panel de opciones, con la sintaxis, ejemplos y las limitaciones de GCD/combate explicadas más abajo.

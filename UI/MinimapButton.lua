@@ -67,4 +67,14 @@ MCD:OnDbReady(function()
 
 	MCD.minimapButton = button
 	applyPosition(button)
+	MCD:ApplyMinimapVisibility()
 end)
+
+function MCD:ApplyMinimapVisibility()
+	if not self.minimapButton then return end
+	if self.db.minimapHidden then
+		self.minimapButton:Hide()
+	else
+		self.minimapButton:Show()
+	end
+end

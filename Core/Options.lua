@@ -32,10 +32,15 @@ local limit2048 = CreateFrame("CheckButton", "MacroDelayLimit2048", panel, "UIRa
 limit2048:SetPoint("TOPLEFT", limit1024, "BOTTOMLEFT", 0, -4)
 _G[limit2048:GetName() .. "Text"]:SetText("2048 caracteres")
 
+local minimapCheck = CreateFrame("CheckButton", "MacroDelayMinimapCheck", panel, "InterfaceOptionsCheckButtonTemplate")
+minimapCheck:SetPoint("TOPLEFT", limit2048, "BOTTOMLEFT", -2, -20)
+MacroDelayMinimapCheckText:SetText("Mostrar botón en el minimapa")
+
 local function refresh()
 	enabledCheck:SetChecked(MCD:IsEnabled())
 	limit1024:SetChecked(MCD.db.charLimit == 1024)
 	limit2048:SetChecked(MCD.db.charLimit == 2048)
+	minimapCheck:SetChecked(not MCD.db.minimapHidden)
 end
 
 enabledCheck:SetScript("OnClick", function(self)
@@ -53,6 +58,11 @@ limit2048:SetScript("OnClick", function()
 	MCD.db.charLimit = 2048
 	MCD:ApplyCharLimit()
 	refresh()
+end)
+
+minimapCheck:SetScript("OnClick", function(self)
+	MCD.db.minimapHidden = not self:GetChecked()
+	MCD:ApplyMinimapVisibility()
 end)
 
 panel:SetScript("OnShow", refresh)

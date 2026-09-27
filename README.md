@@ -14,7 +14,7 @@ It merges two small, well-known addons into one: no more 255-character limit on 
 
 - **Macros without the 255-character limit:** write as long a macro as you need in the game's own macro window (`Escape > Macros`, or `/macro`). Past 255 characters, MacroDelay stores the full text and swaps the macro for an internal proxy that runs it; everything else about the macro (icon, name, drag onto action bars) works exactly as before. The character limit (1024 or 2048) is a setting.
 - **Delayed commands (`/in`, `/md`):** `/in <seconds> <command>` (or `/md`, same thing) runs a slash command after a delay, so you can chain announcements, emotes, or cosmetic actions inside one macro.
-- **Minimap icon:** draggable around the edge, with saved position. Left-click opens the options panel; right-click toggles the addon on/off.
+- **Minimap icon:** draggable around the edge, with saved position. Left-click opens the options panel; right-click toggles the addon on/off. Can be hidden from the options panel without disabling the addon.
 - **Button on the wcdpanel bar:** MacroDelay publishes a standard LibDataBroker data object, the same way Questie, GatherMate or RecipeRadar do, so `wcdpanel` picks it up on its own if it's installed. No dependency either way.
 - **Options panel:** enable/disable the addon and pick the macro character limit, from the standard Interface Options window.
 - **In-game help:** a dedicated Help tab under the options panel with syntax, examples, and the GCD/combat limitations explained below.
