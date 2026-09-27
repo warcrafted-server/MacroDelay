@@ -32,11 +32,11 @@ local function initDb()
 			MacroDelayDB[key] = value
 		end
 	end
-	MacroDelayDB.macroBodies = MacroDelayDB.macroBodies or {}
+	MacroDelayDB.longMacros = MacroDelayDB.longMacros or {}
 
 	-- las macros de personaje cambian de un personaje a otro: su texto no puede ir en la DB de cuenta
 	MacroDelayCharDB = MacroDelayCharDB or {}
-	MacroDelayCharDB.macroBodies = MacroDelayCharDB.macroBodies or {}
+	MacroDelayCharDB.longMacros = MacroDelayCharDB.longMacros or {}
 
 	MCD.db = MacroDelayDB
 	MCD.charDb = MacroDelayCharDB

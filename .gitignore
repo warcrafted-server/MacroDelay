@@ -6,12 +6,11 @@
 !/MacroDelay.lua
 !/Core/
 !/UI/
-!/Libs/
 !/README.md
 !/README.es.md
 !/LICENSE
 
-# Restos de editores y del sistema dentro de Core/, UI/ y Libs/
+# Restos de editores y del sistema dentro de Core/ y UI/
 *.bak
 *.swp
 .DS_Store
