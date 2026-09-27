@@ -1,5 +1,5 @@
--- /in y /md: ejecuta un comando de barra tras un retraso, sin depender de AceTimer. La cola vive
--- en un solo frame con OnUpdate, como wcdpanel/Core/Scheduler.lua.
+-- Copyright (C) 2010 Morsker (SlashIn). GPL v3 o posterior, ver LICENSE.
+-- /in y /md: ejecuta un comando de barra tras un retraso. La cola vive en un solo OnUpdate.
 
 local MCD = MacroDelay
 

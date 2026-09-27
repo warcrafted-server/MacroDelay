@@ -47,11 +47,14 @@ text:SetText(
 	"  /in 4 /run RunGMCommand('gh teleport')\n\n" ..
 	"Se pueden encadenar varias líneas /in dentro de la misma macro para crear una secuencia " ..
 	"completa de avisos, emotes o acciones.\n\n" ..
-	"Limitaciones importantes\n" ..
-	"La API de Blizzard impide saltarse el Global Cooldown (GCD) o forzar habilidades protegidas " ..
-	"en combate mediante código, por diseño (anti-automatización). /in funciona siempre para " ..
-	"comandos de chat, emotes y macros de rol; en combate, solo es fiable para acciones no " ..
-	"protegidas (texto, objetos cosméticos, algunas habilidades sin GCD activo)."
+	"Limitaciones\n" ..
+	"Lo que ejecuta /in lo lanza el addon, no una pulsación tuya, así que Blizzard bloquea todo " ..
+	"lo protegido: /cast, /use, cambiar de objetivo, etc., dentro y fuera de combate. Usa /in " ..
+	"para chat, emotes, /run y otros comandos no protegidos; lo protegido ponlo en líneas sin /in.\n\n" ..
+	"Las macros largas no se pueden guardar en combate.\n\n" ..
+	"wcdpanel\n" ..
+	"Si MacroDelay está en la barra de wcdpanel, wcdpanel oculta el icono del minimapa. Para " ..
+	"recuperarlo, quita MacroDelay de su barra."
 )
 
 scrollChild:SetHeight(text:GetStringHeight())

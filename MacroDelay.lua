@@ -2,7 +2,7 @@ MacroDelay = CreateFrame("Frame")
 local MCD = MacroDelay
 
 MCD.name = "MacroDelay"
-MCD.version = GetAddOnMetadata and GetAddOnMetadata("MacroDelay", "Version") or "1.0.0"
+MCD.version = GetAddOnMetadata and GetAddOnMetadata("MacroDelay", "Version") or "?"
 
 local DEFAULTS = {
 	enabled = true,
@@ -32,22 +32,37 @@ local function initDb()
 			MacroDelayDB[key] = value
 		end
 	end
+	MacroDelayDB.macroBodies = MacroDelayDB.macroBodies or {}
+
+	-- las macros de personaje cambian de un personaje a otro: su texto no puede ir en la DB de cuenta
+	MacroDelayCharDB = MacroDelayCharDB or {}
+	MacroDelayCharDB.macroBodies = MacroDelayCharDB.macroBodies or {}
+
 	MCD.db = MacroDelayDB
+	MCD.charDb = MacroDelayCharDB
 end
 
+-- Un solo despachador: ADDON_LOADED no se desregistra nunca, porque Blizzard_MacroUI se carga
+-- bajo demanda (al abrir la ventana de macros), mucho después que este addon.
+MCD:SetScript("OnEvent", function(self, event, ...)
+	if self[event] then self[event](self, ...) end
+end)
 MCD:RegisterEvent("ADDON_LOADED")
-MCD:SetScript("OnEvent", function(self, event, addon)
-	if event == "ADDON_LOADED" and addon == "MacroDelay" then
+
+function MCD:ADDON_LOADED(addon)
+	if addon == "MacroDelay" then
 		initDb()
 		for _, fn in ipairs(callbacks) do fn() end
 		callbacks = nil
-		self:UnregisterEvent("ADDON_LOADED")
+		if IsAddOnLoaded("Blizzard_MacroUI") then self:HookMacroUI() end
+	elseif addon == "Blizzard_MacroUI" and self.db then
+		self:HookMacroUI()
 	end
-end)
+end
 
 function MCD:SetEnabled(value)
 	self.db.enabled = value and true or false
-	if self.OnEnabledChanged then self:OnEnabledChanged(self.db.enabled) end
+	self:ApplyCharLimit()
 end
 
 function MCD:IsEnabled()

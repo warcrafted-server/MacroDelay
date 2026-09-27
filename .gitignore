@@ -9,6 +9,7 @@
 !/Libs/
 !/README.md
 !/README.es.md
+!/LICENSE
 
 # Restos de editores y del sistema dentro de Core/, UI/ y Libs/
 *.bak

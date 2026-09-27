@@ -40,8 +40,14 @@ local function onEnter(self)
 	GameTooltip:Show()
 end
 
+-- wcdpanel, con MacroDelay en su barra, oculta este botón y le anula Show para que nadie lo
+-- vuelva a enseñar; en ese caso manda wcdpanel.
+function MCD:IsMinimapButtonTakenOver()
+	return self.minimapButton ~= nil and rawget(self.minimapButton, "Show") ~= nil
+end
+
 function MCD:ApplyMinimapVisibility()
-	if not self.minimapButton then return end
+	if not self.minimapButton or self:IsMinimapButtonTakenOver() then return end
 	if self.db.minimapHidden then
 		self.minimapButton:Hide()
 	else

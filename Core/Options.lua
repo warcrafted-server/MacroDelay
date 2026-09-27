@@ -36,16 +36,31 @@ local minimapCheck = CreateFrame("CheckButton", "MacroDelayMinimapCheck", panel,
 minimapCheck:SetPoint("TOPLEFT", limit2048, "BOTTOMLEFT", -2, -20)
 MacroDelayMinimapCheckText:SetText("Mostrar botón en el minimapa")
 
+local takenOverNote = panel:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
+takenOverNote:SetPoint("TOPLEFT", minimapCheck, "BOTTOMLEFT", 26, -2)
+takenOverNote:SetWidth(460)
+takenOverNote:SetJustifyH("LEFT")
+takenOverNote:SetText("MacroDelay está en la barra de wcdpanel, que oculta este icono mientras tanto. " ..
+	"Para recuperarlo, quita MacroDelay de la barra de wcdpanel.")
+
 local function refresh()
 	enabledCheck:SetChecked(MCD:IsEnabled())
 	limit1024:SetChecked(MCD.db.charLimit == 1024)
 	limit2048:SetChecked(MCD.db.charLimit == 2048)
 	minimapCheck:SetChecked(not MCD.db.minimapHidden)
+	if MCD:IsMinimapButtonTakenOver() then
+		minimapCheck:Disable()
+		MacroDelayMinimapCheckText:SetFontObject("GameFontDisable")
+		takenOverNote:Show()
+	else
+		minimapCheck:Enable()
+		MacroDelayMinimapCheckText:SetFontObject("GameFontHighlight")
+		takenOverNote:Hide()
+	end
 end
 
 enabledCheck:SetScript("OnClick", function(self)
 	MCD:SetEnabled(self:GetChecked())
-	MCD:ApplyCharLimit()
 end)
 
 limit1024:SetScript("OnClick", function()

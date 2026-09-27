@@ -2,30 +2,33 @@
 
 *[English version](README.md)*
 
-**MacroDelay** es un addon Lua/XML para World of Warcraft: Wrath of the Lich King (3.3.5a - Client Build 12340).
+**MacroDelay** es un addon en Lua para World of Warcraft: Wrath of the Lich King (3.3.5a - Client Build 12340).
 
-Fusiona dos addons pequeños y conocidos en uno solo: adiós al límite de 255 caracteres en las macros, y un comando `/in <segundos> <comando>` para retrasar cualquier comando de chat, emote o línea de una macro.
+Junta dos addons pequeños y conocidos en uno: se acaba el límite de 255 caracteres de las macros, y tienes un comando `/in <segundos> <comando>` para retrasar comandos de chat, emotes y otros comandos no protegidos.
 
-> **Estado actual:** `1.0.0`. Consulta [`CHANGELOG.md`](CHANGELOG.md) para el detalle de cada versión.
+> **Versión actual:** `1.1.0`.
 
 ---
 
 ## 🛠️ Características principales
 
-- **Macros sin el límite de 255 caracteres:** escribe una macro tan larga como necesites en la propia ventana de macros del juego (`Escape > Macros`, o `/macro`). A partir de 255 caracteres, MacroDelay guarda el texto completo y sustituye la macro por un proxy interno que la ejecuta; el resto (icono, nombre, arrastrar a las barras de acción) funciona exactamente igual. El límite de caracteres (1024 o 2048) es una opción configurable.
-- **Comandos retrasados (`/in`, `/md`):** `/in <segundos> <comando>` (o `/md`, es lo mismo) ejecuta un comando de barra tras un retraso, para encadenar avisos, emotes o acciones cosméticas dentro de una misma macro.
-- **Icono de minimapa:** arrastrable alrededor del borde, con posición guardada. Clic izquierdo abre el panel de opciones; clic derecho activa/desactiva el addon. Se puede ocultar desde el panel de opciones sin desactivar el addon.
-- **Botón en la barra de wcdpanel:** MacroDelay publica un data object LibDataBroker estándar, igual que Questie, GatherMate o RecipeRadar, así que `wcdpanel` lo detecta solo si está instalado. Sin dependencia en ningún sentido.
-- **Panel de opciones:** activar/desactivar el addon y elegir el límite de caracteres de macro, desde la ventana estándar de Opciones de interfaz.
-- **Ayuda dentro del juego:** una pestaña de Ayuda propia dentro del panel de opciones, con la sintaxis, ejemplos y las limitaciones de GCD/combate explicadas más abajo.
+- **Macros sin el límite de 255 caracteres:** escribe una macro tan larga como necesites en la ventana de macros del propio juego (`Escape > Macros`, o `/macro`). A partir de 255 caracteres, MacroDelay guarda el texto completo y cambia la macro por un botón interno que lo ejecuta; el icono, el nombre y arrastrarla a las barras de acción funcionan igual que siempre. Sirve tanto para macros generales como de personaje, y el límite (1024 o 2048) se elige en las opciones.
+- **Comandos retrasados (`/in`, `/md`):** `/in <segundos> <comando>` (o `/md`, es lo mismo) ejecuta un comando de barra pasado un tiempo, para encadenar avisos o emotes dentro de una misma macro.
+- **Icono de minimapa:** se arrastra alrededor del borde y recuerda su posición. Clic izquierdo abre las opciones; clic derecho activa o desactiva el addon. Se puede ocultar desde las opciones.
+- **Botón en la barra de wcdpanel:** MacroDelay publica un objeto LibDataBroker estándar, como Questie, GatherMate o RecipeRadar, así que `wcdpanel` lo muestra solo en su barra. No depende de él ni al revés. Mientras MacroDelay está en la barra de wcdpanel, wcdpanel oculta el icono del minimapa (así es como deja libre el minimapa); para recuperarlo, quita MacroDelay de la barra de wcdpanel.
+- **Panel de opciones:** activar o desactivar el addon, elegir el límite de caracteres y mostrar u ocultar el icono del minimapa, desde la ventana estándar de Opciones de interfaz.
+- **Ayuda dentro del juego:** una pestaña de Ayuda en el panel de opciones con la sintaxis, ejemplos y limitaciones.
 
 ---
 
 ## 📂 Instalación
 
-1. Clona o descarga este repositorio dentro del directorio de addons de tu cliente, en una carpeta llamada `MacroDelay`:
+1. Descarga este repositorio en el directorio de addons de tu cliente, en una carpeta que se llame exactamente `MacroDelay`:
    `World of Warcraft 3.3.5a/Interface/AddOns/MacroDelay/`
-2. Asegúrate de tener activada la opción **"Cargar accesorios antiguos"** (Load out of date addons) en la pantalla de selección de personajes.
+2. Activa **"Cargar accesorios antiguos"** (Load out of date addons) en la pantalla de selección de personajes.
+3. Desactiva **ncBiggerMacros** y **SlashIn** si los tienes: tocan las mismas partes de la ventana de macros y el comando `/in`.
+
+> **Al actualizar a la 1.1.0:** cierra el cliente de WoW del todo y vuelve a abrirlo. Esta versión añade datos guardados por personaje y `/reload` no recoge ese cambio.
 
 ---
 
@@ -34,44 +37,51 @@ Fusiona dos addons pequeños y conocidos en uno solo: adiós al límite de 255 c
 **Avisos en banda:**
 ```
 /cast Himno de esperanza
-/s ¡Lanzando Himno de esperanza! + Maná para todos.
+/s ¡Lanzando Himno de esperanza! Maná para todos.
 /in 4 /s Quedan 4 segundos de Himno.
-/in 8 /s Himno de esperanza finalizado.
+/in 8 /s Himno de esperanza terminado.
 ```
 
-**Encadenar acciones cosméticas o habilidades sin GCD:**
+**Secuencia de rol:**
 ```
-/use Abalorio de poder
-/in 1 /cast Furia sangrienta
+/e alza un estandarte.
 /in 2 /y ¡Por la Horda!
+/in 4 /e carga hacia delante.
 ```
 
-**Comandos de GM (solo staff):** un "." seguido de letras en cualquier parte del texto de una macro lo intercepta el servidor en el instante en que se pulsa, antes de que `/in` llegue a procesarlo. Para evitarlo, el comando de GM se pasa envuelto en `RunGMCommand`, que añade el "." solo cuando se ejecuta de verdad:
+**Comandos de GM (solo staff):** un "." seguido de letras en cualquier parte del texto de una macro lo intercepta el servidor en cuanto se pulsa, antes de que `/in` llegue a procesarlo. Pásalo envuelto en `RunGMCommand`, que añade el "." solo cuando se ejecuta de verdad:
 ```
 /in 4 /run RunGMCommand('gh teleport')
 ```
 
 ---
 
-## ⚠️ Limitaciones importantes
+## ⚠️ Limitaciones
 
-La API de Blizzard impide que las macros se salten el Global Cooldown (GCD) o disparen habilidades protegidas de forma automática en combate; es una limitación de diseño, pensada para evitar rotaciones scripteadas. `/in` siempre funciona para chat, emotes y macros de rol; en combate, solo es fiable para acciones no protegidas (texto, objetos cosméticos, alguna habilidad sin GCD activo). Fuera de combate no hay ninguna restricción de este tipo.
+Lo que ejecuta `/in` lo lanza el código del addon, no una pulsación tuya, así que Blizzard bloquea todo lo protegido: lanzar hechizos (`/cast`), usar objetos (`/use`), cambiar de objetivo, etc. Pasa dentro y fuera de combate. Usa `/in` para chat, emotes, scripts `/run` y otros comandos no protegidos; las acciones protegidas solo funcionan en las líneas sin `/in`, que se ejecutan en el momento de pulsar la macro.
+
+Las macros largas no se pueden guardar en combate, y si haces `/reload` en combate vuelven a funcionar en cuanto termina.
 
 ---
 
 ## 📁 Estructura del repositorio
 
 ```
-MacroDelay.toc, MacroDelay.lua   # Punto de entrada del addon
-Core/                            # Límite de macro, planificador de /in, panel de opciones, ayuda
-UI/                              # Icono de minimapa, data object LibDataBroker
-Libs/                            # LibStub, CallbackHandler-1.0, LibDataBroker-1.1 (de terceros)
+MacroDelay.toc, MacroDelay.lua   # Punto de entrada, datos guardados y eventos
+Core/                            # Límite de caracteres, /in, panel de opciones, ayuda
+UI/                              # Icono de minimapa, objeto LibDataBroker
+Libs/                            # LibStub, CallbackHandler-1.0, LibDataBroker-1.1
 ```
-
-El addon y este README se publican en GitHub; el `CHANGELOG.md` se mantiene en local.
 
 ---
 
 ## 📜 Licencia y créditos
 
-Addon desarrollado desde cero para servidores de la comunidad basados en **AzerothCore**, inspirado en dos addons clásicos de WoW: *ncBiggerMacros* (nightcracker), por la ampliación del límite de caracteres, y *SlashIn* (Morsker), por el comando `/in`. No se ha reutilizado código de ninguno de los dos; MacroDelay reimplementa las mismas ideas como un addon único y autocontenido.
+MacroDelay es software libre bajo la [Licencia Pública General de GNU v3](LICENSE) o posterior.
+
+Se basa en dos addons clásicos de WoW:
+
+- **SlashIn**, de Morsker (© 2010, GPL v3 o posterior): el comando `/in`, la búsqueda del manejador de cada comando de barra y `RunGMCommand`.
+- **ncBiggerMacros**, de nightcracker: la técnica para saltarse el límite de 255 caracteres sustituyendo las funciones de guardar, borrar y refrescar de la ventana de macros y ejecutando el texto completo con un botón seguro.
+
+Las librerías incluidas mantienen sus propias licencias: LibStub (dominio público), CallbackHandler-1.0 (Ace3, BSD) y LibDataBroker-1.1.
