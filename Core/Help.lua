@@ -15,11 +15,16 @@ local scrollFrame = CreateFrame("ScrollFrame", "MacroDelayHelpScroll", panel, "U
 scrollFrame:SetPoint("TOPLEFT", title, "BOTTOMLEFT", 0, -12)
 scrollFrame:SetPoint("BOTTOMRIGHT", panel, "BOTTOMRIGHT", -32, 16)
 
-local text = scrollFrame:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
+-- SetScrollChild exige un Frame, no un FontString suelto: el texto va dentro de uno.
+local scrollChild = CreateFrame("Frame", nil, scrollFrame)
+scrollChild:SetSize(500, 1)
+scrollFrame:SetScrollChild(scrollChild)
+
+local text = scrollChild:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
+text:SetPoint("TOPLEFT")
 text:SetWidth(500)
 text:SetJustifyH("LEFT")
 text:SetJustifyV("TOP")
-scrollFrame:SetScrollChild(text)
 
 MCD:OnDbReady(function()
 	if InterfaceOptions_AddCategory then
@@ -38,6 +43,8 @@ text:SetText(
 	"Ejemplos:\n" ..
 	"  /in 4 /s Quedan 4 segundos de Himno de Esperanza.\n" ..
 	"  /in 1.5 /y ¡Por la Horda!\n\n" ..
+	"Para comandos de GM (\".\"):\n" ..
+	"  /in 4 /run RunGMCommand('gh teleport')\n\n" ..
 	"Se pueden encadenar varias líneas /in dentro de la misma macro para crear una secuencia " ..
 	"completa de avisos, emotes o acciones.\n\n" ..
 	"Limitaciones importantes\n" ..
@@ -46,3 +53,5 @@ text:SetText(
 	"comandos de chat, emotes y macros de rol; en combate, solo es fiable para acciones no " ..
 	"protegidas (texto, objetos cosméticos, algunas habilidades sin GCD activo)."
 )
+
+scrollChild:SetHeight(text:GetStringHeight())

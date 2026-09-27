@@ -46,6 +46,11 @@ It merges two small, well-known addons into one: no more 255-character limit on 
 /in 2 /y For the Horde!
 ```
 
+**GM commands (staff only):** a `.` followed by letters anywhere in a macro's text gets intercepted by the server the instant the macro is clicked, before `/in` ever runs. To dodge that, wrap the GM command in `RunGMCommand`, which adds the `.` only when it actually runs:
+```
+/in 4 /run RunGMCommand('gh teleport')
+```
+
 ---
 
 ## ⚠️ Important limitations

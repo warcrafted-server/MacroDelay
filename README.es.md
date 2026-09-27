@@ -46,6 +46,11 @@ Fusiona dos addons pequeños y conocidos en uno solo: adiós al límite de 255 c
 /in 2 /y ¡Por la Horda!
 ```
 
+**Comandos de GM (solo staff):** un "." seguido de letras en cualquier parte del texto de una macro lo intercepta el servidor en el instante en que se pulsa, antes de que `/in` llegue a procesarlo. Para evitarlo, el comando de GM se pasa envuelto en `RunGMCommand`, que añade el "." solo cuando se ejecuta de verdad:
+```
+/in 4 /run RunGMCommand('gh teleport')
+```
+
 ---
 
 ## ⚠️ Limitaciones importantes

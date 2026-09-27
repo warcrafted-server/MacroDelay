@@ -37,6 +37,22 @@ local function findSlashHandler(slash)
 	end
 end
 
+-- El servidor intercepta comandos de GM (".") en cuanto ve un "." seguido de letras en el texto
+-- de la macro, en el instante en que se pulsa el botón, antes de que /in llegue a procesarlo. Por
+-- eso un "." literal en la macro (incluso escapado) dispara el comando de golpe. La única forma
+-- de evitarlo es no tener nunca un "." + letras en el texto de la macro: se pide como
+-- /run RunGMCommand('comando') y el punto se añade aquí, cuando la macro ya se ha ejecutado.
+function RunGMCommand(gmCommand)
+	local editBox = ChatFrame1EditBox
+	local wasShown = editBox:IsShown()
+	local previousText = editBox:GetText()
+	editBox:SetText("." .. gmCommand)
+	ChatEdit_SendText(editBox, 0)
+	if wasShown then
+		editBox:SetText(previousText)
+	end
+end
+
 local function runCommand(command)
 	local slash, rest = command:match("^(/%S+)%s*(.*)$")
 	if not slash then
