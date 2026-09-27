@@ -77,11 +77,21 @@ Libs/                            # LibStub, CallbackHandler-1.0, LibDataBroker-1
 
 ## 📜 Licencia y créditos
 
-MacroDelay es software libre bajo la [Licencia Pública General de GNU v3](LICENSE) o posterior.
+**MacroDelay** © 2026 WarCrafted, software libre bajo la [Licencia Pública General de GNU v3](LICENSE) o posterior.
 
-Se basa en dos addons clásicos de WoW:
+### Puedes:
+- Usarlo libremente en servidores privados e instalaciones de un solo jugador
+- Modificarlo para tu propio uso
+- Compartir tus modificaciones, conservando la misma licencia y créditos
 
+### Debes:
+- Mantener el aviso de copyright y la licencia GPL v3
+- Acreditar a **SlashIn** (Morsker) y **ncBiggerMacros** (nightcracker) si lo distribuyes
+- Compartir cualquier modificación bajo GPL v3 o posterior
+
+### Se basa en:
 - **SlashIn**, de Morsker (© 2010, GPL v3 o posterior): el comando `/in`, la búsqueda del manejador de cada comando de barra y `RunGMCommand`.
 - **ncBiggerMacros**, de nightcracker: la técnica para saltarse el límite de 255 caracteres sustituyendo las funciones de guardar, borrar y refrescar de la ventana de macros y ejecutando el texto completo con un botón seguro.
 
-Las librerías incluidas mantienen sus propias licencias: LibStub (dominio público), CallbackHandler-1.0 (Ace3, BSD) y LibDataBroker-1.1.
+### Librerías:
+LibStub (dominio público), CallbackHandler-1.0 (Ace3, BSD) y LibDataBroker-1.1.
