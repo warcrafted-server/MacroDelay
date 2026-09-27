@@ -37,8 +37,12 @@ end
 -- "/click <botón>" y hay que dejar margen para el nombre del botón (el id crece con el tiempo).
 local SHOW_LINE_LIMIT = NATIVE_LIMIT - 40
 
+local function rawShowLine(text)
+	return text and text:match("^%s*(#show[^\r\n]*)")
+end
+
 local function showLine(text)
-	local line = text:match("^%s*(#show[^\n]*)")
+	local line = rawShowLine(text)
 	if line and #line <= SHOW_LINE_LIMIT then return line end
 end
 
@@ -56,8 +60,10 @@ end
 -- Solo cuenta como stub si el cuerpo es exactamente el nuestro (con o sin línea #show delante)
 -- y el id tiene texto guardado.
 local function knownId(body, scope)
-	if not (body and body:match("^/click " .. scopes[scope].prefix .. "%d+%s*$")
-		or body:match("^#show[^\n]*\n/click " .. scopes[scope].prefix .. "%d+%s*$")) then
+	if not body then return end
+	local prefix = scopes[scope].prefix
+	if not (body:match("^/click " .. prefix .. "%d+%s*$")
+		or body:match("^#show[^\r\n]*\r?\n/click " .. prefix .. "%d+%s*$")) then
 		return
 	end
 	local id = stubId(body, scope)
@@ -142,6 +148,25 @@ local function migrateLegacy(scope)
 	owner.macroBodies = nil
 end
 
+-- Una sola vez por macro y sesión: si el cliente retocara el cuerpo al guardarlo, no entramos en bucle
+-- con UPDATE_MACROS.
+local refreshed = {}
+
+local function refreshStubs(scope)
+	local store = storeOf(scope)
+	for slot, body in pairs(macroBodies(scope)) do
+		local id = knownId(body, scope)
+		if id then
+			local expected = stubFor(scope, id, store[id])
+			local key = scope .. id
+			if body ~= expected and not refreshed[key] then
+				refreshed[key] = true
+				EditMacro(slot, nil, nil, expected)
+			end
+		end
+	end
+end
+
 local function prune(scope)
 	local referenced = {}
 	for _, body in pairs(macroBodies(scope)) do
@@ -169,6 +194,7 @@ local function maintain()
 	for scope in pairs(scopes) do
 		if macroCount(scope) > 0 then
 			migrateLegacy(scope)
+			refreshStubs(scope)
 			prune(scope)
 		end
 	end
@@ -192,7 +218,7 @@ local function saveLong(slot, text)
 	local store = storeOf(scope)
 	local _, _, body = GetMacroInfo(slot)
 	local id = knownId(body, scope)
-	if id and store[id] == text then return end
+	if id and store[id] == text and body == stubFor(scope, id, text) then return end
 	if InCombatLockdown() then
 		MCD:Print("No se puede guardar una macro de más de " .. NATIVE_LIMIT .. " caracteres en combate.")
 		return
@@ -201,6 +227,9 @@ local function saveLong(slot, text)
 	store[id] = text
 	setButton(buttonName(scope, id), text)
 	EditMacro(slot, nil, nil, stubFor(scope, id, text))
+	if rawShowLine(text) and not showLine(text) then
+		MCD:Print("La línea #showtooltip pasa de " .. SHOW_LINE_LIMIT .. " caracteres y no cabe en la macro: el icono no cambiará solo. Acórtala para que funcione.")
+	end
 end
 
 local function save(enabled)
